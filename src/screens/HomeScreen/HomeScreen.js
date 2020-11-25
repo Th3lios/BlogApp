@@ -8,7 +8,12 @@ import {
   SafeAreaView
 } from 'react-native'
 import Card from '../../components/Cards/Card'
-import { CARDDATA } from '../../data/cardData';
+import LogoCard from '../../components/Cards/LogoCard'
+import { CARD, LOGO } from '../../data/cardData';
+import Icon from 'react-native-vector-icons/Ionicons';
+import IconF from 'react-native-vector-icons/FontAwesome';
+Icon.loadFont();
+IconF.loadFont();
 
 class HomeScreen extends Component {
   render() {
@@ -17,16 +22,28 @@ class HomeScreen extends Component {
         <SafeAreaView>
           <ScrollView style={{height:"100%"}}>
             <View style={styles.titleBar}>
+              <IconF 
+                style={styles.icon} 
+                name="bell" 
+                size={32} 
+                color="#4775f2"/>
               <Image  style={styles.avatar} source={require('../../assets/avatar.jpg')}/>
               <Text style={styles.title}>Welcome back</Text>
               <Text style={styles.name}>Elías</Text>
             </View>
+            <ScrollView 
+              style={styles.logoScroll}
+              horizontal={true} 
+              showsHorizontalScrollIndicator={false}
+            >
+              {LOGO.map((item, key) => <LogoCard {...item} key={key}/>)}
+            </ScrollView>
             <Text style={styles.subtitle}>Continue Learning</Text>
             <ScrollView 
-              style={styles.scroll} 
+              style={styles.cardScroll} 
               horizontal={true} 
               showsHorizontalScrollIndicator={false}>
-              { CARDDATA.map((item, key) => <Card {...item} />)}
+              { CARD.map((item, key) => <Card {...item} key={key} />)}
             </ScrollView>
           </ScrollView>
         </SafeAreaView>
@@ -50,7 +67,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: 15,
     marginLeft: 20,
-    marginTop: 50,
+    marginTop: 30,
     textTransform: "uppercase"
   },
   name: {
@@ -73,12 +90,20 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0
   },
-  scroll:{
+  cardScroll: {
     marginHorizontal: 10,
     overflow: "visible",
     paddingBottom: 30,
-    borderWidth:1,
-    borderColor: "red"
+  },
+  icon: {
+    position: "absolute",
+    top: 5,
+    right:20
+  },
+  logoScroll: {
+    marginHorizontal: 12,
+    overflow: "visible",
+    marginTop: 30,
   }
 })
 

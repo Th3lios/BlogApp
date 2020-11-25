@@ -1,4 +1,4 @@
-export const CARDDATA = [
+export const CARD = [
   {
     title: "Styled Components",
     caption: "React Native",
@@ -27,4 +27,19 @@ export const CARDDATA = [
     image: require("../assets/background2.jpg"),
     logo: require("../assets/logo-react.png")
   },
+]
+
+export const LOGO = [
+  {
+    image: require("../assets/logo-framerx.png"),
+    text: "Framer X"
+  },
+  {
+    image: require("../assets/logo-figma.png"),
+    text: "Figma"
+  },
+  {
+    image: require("../assets/logo-react.png"),
+    text: "React Native"
+  }
 ]
