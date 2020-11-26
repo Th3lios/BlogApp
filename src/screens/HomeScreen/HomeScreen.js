@@ -9,7 +9,8 @@ import {
 } from 'react-native'
 import Card from '../../components/Cards/Card'
 import LogoCard from '../../components/Cards/LogoCard'
-import { CARD, LOGO } from '../../data/cardData';
+import RelatedCard from '../../components/Cards/RelatedCard'
+import { cards, rcards, logos } from '../../data/cardData';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconF from 'react-native-vector-icons/FontAwesome';
 Icon.loadFont();
@@ -36,15 +37,19 @@ class HomeScreen extends Component {
               horizontal={true} 
               showsHorizontalScrollIndicator={false}
             >
-              {LOGO.map((item, key) => <LogoCard {...item} key={key}/>)}
+              {logos.map((item, key) => <LogoCard {...item} key={key}/>)}
             </ScrollView>
             <Text style={styles.subtitle}>Continue Learning</Text>
             <ScrollView 
-              style={styles.cardScroll} 
+              style={styles.wrapper} 
               horizontal={true} 
               showsHorizontalScrollIndicator={false}>
-              { CARD.map((item, key) => <Card {...item} key={key} />)}
+              { cards.map((item, key) => <Card {...item} key={key} />)}
             </ScrollView>
+            <Text style={styles.subtitle}>Related Courses</Text>
+              <View style={styles.wrapper}>
+                { rcards.map((item, key) => <RelatedCard {...item} key={key} />)}
+              </View>
           </ScrollView>
         </SafeAreaView>
       </View>
@@ -90,10 +95,9 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0
   },
-  cardScroll: {
+  wrapper: {
     marginHorizontal: 10,
-    overflow: "visible",
-    paddingBottom: 30,
+    overflow: "visible"
   },
   icon: {
     position: "absolute",
