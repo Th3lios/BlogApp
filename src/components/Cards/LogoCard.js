@@ -1,24 +1,24 @@
-import React from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import React from 'react';
+import {View, Text, Image, StyleSheet} from 'react-native';
 const LogoCard = ({image, text}) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={image}/>
+      <Image style={styles.image} source={image} />
       <Text style={styles.text}>{text}</Text>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    backgroundColor: "white",
+    flexDirection: 'row',
+    backgroundColor: 'white',
     height: 60,
     padding: 12,
-    alignItems: "center",
+    alignItems: 'center',
     borderRadius: 10,
     // ios
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 5,
@@ -26,18 +26,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 10,
     // android
-    elevation: 15,
-    marginHorizontal: 8
+    elevation: 5,
+    marginHorizontal: 8,
   },
   image: {
     width: 36,
-    height: 36
+    height: 36,
   },
   text: {
-    fontWeight: "600",
+    fontWeight: '600',
     fontSize: 17,
-    marginLeft: 8
-  }
-})
+    marginLeft: 8,
+  },
+});
 
-export default LogoCard
+export default LogoCard;

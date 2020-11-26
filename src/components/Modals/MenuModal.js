@@ -28,23 +28,27 @@ class MenuModal extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.setMenuModal(false);
+  }
+
   componentDidUpdate() {
     this.toggleMenu();
   }
 
   toggleMenu = () => {
     if (this.props.action === true) {
-      Animated.timing(this.state.top, {
+      Animated.spring(this.state.top, {
         toValue: 0,
-        duration: 1000,
+        duration: 1500,
         useNativeDriver: false,
       }).start();
     }
 
     if (this.props.action === false) {
-      Animated.timing(this.state.top, {
+      Animated.spring(this.state.top, {
         toValue: height,
-        duration: 1000,
+        duration: 1500,
         useNativeDriver: false,
       }).start();
     }

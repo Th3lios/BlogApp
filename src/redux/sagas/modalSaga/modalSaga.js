@@ -1,3 +1,4 @@
+import { valueOf } from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedViewPropTypes';
 import {put, call, takeLatest} from 'redux-saga/effects';
 
 // actions
@@ -6,10 +7,10 @@ import * as actionTypes from '../../actions/modalAction/modalAction';
 // api call
 import api from '../../api/api';
 
-function* setMenuModal(value) {
+function* setMenuModal(action) {
   try {
-    console.log(value);
-    yield put({type: actionTypes.SET_MENU_MODAL_STATE, data: value});
+    console.log(action);
+    yield put({type: actionTypes.SET_MENU_MODAL_STATE, data: action.data});
   } catch (error) {
     console.log(error);
   }
@@ -17,5 +18,5 @@ function* setMenuModal(value) {
 
 // watcher
 export default function* modal() {
-  yield takeLatest(actionTypes.SET_MENU_MODAL_STATE, setMenuModal);
+  yield takeLatest(actionTypes.SET_MENU_MODAL, setMenuModal);
 }
