@@ -50,7 +50,7 @@ export const rcards = [
     section: "10 Sections",
     caption: "Learn to design and code a React site",
     author: "Taught by Elías Araya",
-    image: require("../assets/background1.jpg"),
+    image: require("../assets/background11.jpg"),
     logo: require("../assets/logo-react.png"),
     avatar: require('../assets/avatar.jpg')
   },
@@ -81,4 +81,22 @@ export const rcards = [
     logo: require("../assets/logo-studio.png"),
     avatar: require('../assets/avatar.jpg')
   },
+]
+
+export const mitem = [
+  {
+    icon: "settings",
+    title: "Account",
+    text: "settings" 
+  },
+  {
+    icon: "card",
+    title: "Billing",
+    text: "payments" 
+  },
+  {
+    icon: "exit",
+    title: "Log out",
+    text: "see you soon!" 
+  }
 ]

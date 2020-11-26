@@ -1,5 +1,5 @@
-export const TEST_ACTION = 'TEST_ACTION'
+export const TEST_ACTION = 'TEST_ACTION';
 
 export const testAction = () => {
-  return { type: TEST_ACTION }
-}
+  return {type: TEST_ACTION};
+};

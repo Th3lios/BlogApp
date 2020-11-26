@@ -4,11 +4,17 @@ import { persistReducer } from 'redux-persist'
 
 // reducers
 import { testReducer } from './testReducer/testReducer'
+import { menuReducer } from './modalReducer/modalReducer'
 
 
 export default combineReducers({
   test: persistReducer({
     key: 'test',
     storage: AsyncStorage
-  }, testReducer)
+  }, testReducer),
+  modal: persistReducer({
+    key: 'modal',
+    storage: AsyncStorage,
+    blacklist: ['action']
+  }, menuReducer),
 })
