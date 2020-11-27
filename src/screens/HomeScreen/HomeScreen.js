@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Animated,
   StatusBar,
+  Easing,
+  Platform,
 } from 'react-native';
 import Card from '../../components/Cards/Card';
 import LogoCard from '../../components/Cards/LogoCard';
@@ -27,7 +29,15 @@ class HomeScreen extends Component {
     super(props);
     this.state = {
       scale: new Animated.Value(1),
+      opacity: new Animated.Value(1),
     };
+  }
+
+  componentDidMount() {
+    Platform.OS === 'android'
+      ? StatusBar.setBarStyle('light-content', true)
+      : StatusBar.setBarStyle('dark-content', true);
+    Platform.OS === 'android' && StatusBar.setBackgroundColor('black', true);
   }
 
   componentDidUpdate() {
@@ -38,15 +48,30 @@ class HomeScreen extends Component {
     if (this.props.action === true) {
       Animated.spring(this.state.scale, {
         toValue: 0.9,
+        duration: 300,
+        easing: Easing.in(),
         useNativeDriver: false,
       }).start();
+      Animated.spring(this.state.opacity, {
+        toValue: 0.5,
+        useNativeDriver: false,
+      }).start();
+      Platform.OS === 'ios' && StatusBar.setBarStyle('light-content', true);
     }
 
     if (this.props.action === false) {
       Animated.spring(this.state.scale, {
         toValue: 1,
+        duration: 300,
+        easing: Easing.in(),
         useNativeDriver: false,
       }).start();
+      Animated.spring(this.state.opacity, {
+        toValue: 1,
+        useNativeDriver: false,
+      }).start();
+
+      Platform.OS === 'ios' && StatusBar.setBarStyle('dark-content', true);
     }
   };
 
@@ -54,7 +79,13 @@ class HomeScreen extends Component {
     return (
       <View style={styles.rootView}>
         <Animated.View
-          style={[styles.container, {transform: [{scale: this.state.scale}]}]}>
+          style={[
+            styles.container,
+            {
+              transform: [{scale: this.state.scale}],
+              opacity: this.state.opacity,
+            },
+          ]}>
           <SafeAreaView>
             <ScrollView style={styles.scroll}>
               <View style={styles.titleBar}>

@@ -11,6 +11,7 @@ export default styles = StyleSheet.create({
     backgroundColor: '#f0f3f5',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+    overflow: 'hidden',
   },
   scroll: {
     height: '100%',
