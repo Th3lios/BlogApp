@@ -87,7 +87,9 @@ class HomeScreen extends Component {
             },
           ]}>
           <SafeAreaView>
-            <ScrollView style={styles.scroll}>
+            <ScrollView
+              style={styles.scroll}
+              showsVerticalScrollIndicator={false}>
               <View style={styles.titleBar}>
                 <IconF
                   style={styles.icon}
