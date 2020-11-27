@@ -23,7 +23,7 @@ const inactiveColor = '#b8bece';
 const tabVisible = {
   Home: true,
   Courses: true,
-  Projects: false,
+  Projects: true,
 };
 
 const Stack = createStackNavigator();
@@ -69,11 +69,12 @@ const createProjectsStack = () => (
 const HomeTabs = () => (
   <BottomTab.Navigator
     screenOptions={({route}) => ({
+      tabBarVisible: tabVisible[route.name],
       tabBarIcon: ({color, size, focused}) => {
         const icons = {
           Home: 'home',
-          Courses: 'settings',
-          Projects: 'settings',
+          Courses: 'albums',
+          Projects: 'folder',
         };
         return (
           <>
