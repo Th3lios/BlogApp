@@ -11,19 +11,24 @@ import {
   Easing,
   Platform,
 } from 'react-native';
+// components
 import Card from '../../components/Cards/Card';
 import LogoCard from '../../components/Cards/LogoCard';
 import RelatedCard from '../../components/Cards/RelatedCard';
 import MenuModal from '../../components/Modals/MenuModal';
+// style
+import styles from './HomeScreenStyle';
+// data
 import {cards, rcards, logos} from '../../data/cardData';
-import Icon from 'react-native-vector-icons/Ionicons';
-import IconF from 'react-native-vector-icons/FontAwesome';
+// redux
 import {connect} from 'react-redux';
 import {
   setMenuModal,
   getUsersSaga,
 } from '../../redux/actions/modalAction/modalAction';
-import styles from './HomeScreenStyle';
+// icons
+import Icon from 'react-native-vector-icons/Ionicons';
+import IconF from 'react-native-vector-icons/FontAwesome';
 Icon.loadFont();
 IconF.loadFont();
 
@@ -128,7 +133,11 @@ class HomeScreen extends Component {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
                 {cards.map((item, key) => (
-                  <Card {...item} key={key} />
+                  <TouchableOpacity
+                    key={key}
+                    onPress={() => this.props.navigation.push('Section')}>
+                    <Card {...item} />
+                  </TouchableOpacity>
                 ))}
               </ScrollView>
               <Text style={styles.subtitle}>Related Courses</Text>
