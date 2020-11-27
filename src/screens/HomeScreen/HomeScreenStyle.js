@@ -42,6 +42,7 @@ export default styles = StyleSheet.create({
     width: 45,
     height: 45,
     backgroundColor: 'black',
+    borderRadius: 22,
   },
   avatarContainer: {
     borderRadius: 22,
@@ -52,6 +53,14 @@ export default styles = StyleSheet.create({
     left: 0,
     marginLeft: 20,
     overflow: 'hidden',
+  },
+  avatarBorders: {
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.3)',
   },
   cardScroll: {
     marginHorizontal: 10,

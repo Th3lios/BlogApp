@@ -1,16 +1,25 @@
-import { valueOf } from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedViewPropTypes';
+import {valueOf} from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedViewPropTypes';
 import {put, call, takeLatest} from 'redux-saga/effects';
 
 // actions
 import * as actionTypes from '../../actions/modalAction/modalAction';
 
 // api call
-import api from '../../api/api';
+import {apiCall} from '../../api/api';
 
 function* setMenuModal(action) {
   try {
-    console.log(action);
     yield put({type: actionTypes.SET_MENU_MODAL_STATE, data: action.data});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* getUsers(action) {
+  try {
+    const result = yield call(apiCall, 'get', 'https://randomuser.me/api/?ext');
+    console.log(result);
+    yield put({type: actionTypes.GET_USERS_REDUCER, data: result});
   } catch (error) {
     console.log(error);
   }
@@ -19,4 +28,5 @@ function* setMenuModal(action) {
 // watcher
 export default function* modal() {
   yield takeLatest(actionTypes.SET_MENU_MODAL, setMenuModal);
+  yield takeLatest(actionTypes.GET_USERS_SAGA, getUsers);
 }

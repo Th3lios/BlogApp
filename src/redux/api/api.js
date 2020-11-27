@@ -1,5 +1,7 @@
-export default function api(method, url) {
+export function apiCall(method, url) {
   return fetch(url, {
-    method
-  }).then(reponse => response.json())
+    method,
+  })
+    .then((response) => response.json())
+    .then((response) => response.results[0]);
 }

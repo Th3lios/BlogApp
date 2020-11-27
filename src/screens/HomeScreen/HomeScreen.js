@@ -19,7 +19,10 @@ import {cards, rcards, logos} from '../../data/cardData';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconF from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
-import {setMenuModal} from '../../redux/actions/modalAction/modalAction';
+import {
+  setMenuModal,
+  getUsersSaga,
+} from '../../redux/actions/modalAction/modalAction';
 import styles from './HomeScreenStyle';
 Icon.loadFont();
 IconF.loadFont();
@@ -30,6 +33,7 @@ class HomeScreen extends Component {
     this.state = {
       scale: new Animated.Value(1),
       opacity: new Animated.Value(1),
+      user: null,
     };
   }
 
@@ -38,6 +42,7 @@ class HomeScreen extends Component {
       ? StatusBar.setBarStyle('light-content', true)
       : StatusBar.setBarStyle('dark-content', true);
     Platform.OS === 'android' && StatusBar.setBackgroundColor('black', true);
+    this.props.getUsers();
   }
 
   componentDidUpdate() {
@@ -102,11 +107,12 @@ class HomeScreen extends Component {
                   onPress={() => this.props.setMenuState(true)}>
                   <Image
                     style={styles.avatar}
-                    source={require('../../assets/avatar.jpg')}
+                    source={{uri: this.props.user?.picture.large}}
                   />
+                  <View style={styles.avatarBorders} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Welcome back</Text>
-                <Text style={styles.name}>Elías</Text>
+                <Text style={styles.name}>{this.props.user?.name.first}</Text>
               </View>
               <ScrollView
                 style={styles.logoScroll}
@@ -142,10 +148,12 @@ class HomeScreen extends Component {
 
 const mapStateToProps = (state) => ({
   action: state.modal.action,
+  user: state.modal.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setMenuState: (value) => dispatch(setMenuModal(value)),
+  getUsers: () => dispatch(getUsersSaga()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

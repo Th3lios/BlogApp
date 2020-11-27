@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 25,
   },
   content: {
     justifyContent: 'center',
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
+    borderTopLeftRadius: 22,
   },
   iconButton: {
     backgroundColor: 'white',

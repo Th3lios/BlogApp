@@ -2,6 +2,7 @@ import * as actionTypes from '../../actions/modalAction/modalAction';
 
 const initialState = {
   action: false,
+  user: undefined,
 };
 
 export const menuReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ export const menuReducer = (state = initialState, action) => {
       return {
         ...state,
         action: action.data,
+      };
+    case actionTypes.GET_USERS_REDUCER:
+      return {
+        ...state,
+        user: action.data,
       };
     default:
       return state;
