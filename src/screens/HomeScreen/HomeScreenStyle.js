@@ -2,9 +2,18 @@ import {StyleSheet} from 'react-native';
 
 // eslint-disable-next-line no-undef
 export default styles = StyleSheet.create({
+  rootView: {
+    backgroundColor: 'black',
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: '#f0f3f5',
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
+  scroll: {
+    height: '100%',
   },
   title: {
     fontSize: 16,

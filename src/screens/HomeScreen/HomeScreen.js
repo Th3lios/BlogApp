@@ -6,6 +6,8 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
+  Animated,
+  StatusBar,
 } from 'react-native';
 import Card from '../../components/Cards/Card';
 import LogoCard from '../../components/Cards/LogoCard';
@@ -23,58 +25,82 @@ IconF.loadFont();
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      scale: new Animated.Value(1),
+    };
   }
+
+  componentDidUpdate() {
+    this.toggleMenu();
+  }
+
+  toggleMenu = () => {
+    if (this.props.action === true) {
+      Animated.spring(this.state.scale, {
+        toValue: 0.9,
+        useNativeDriver: false,
+      }).start();
+    }
+
+    if (this.props.action === false) {
+      Animated.spring(this.state.scale, {
+        toValue: 1,
+        useNativeDriver: false,
+      }).start();
+    }
+  };
 
   render() {
     return (
-      <View style={styles.container}>
-        <SafeAreaView>
-          <ScrollView style={{height: '100%'}}>
-            <View style={styles.titleBar}>
-              <IconF
-                style={styles.icon}
-                name="bell"
-                size={32}
-                color="#4775f2"
-              />
-              <TouchableOpacity
-                style={styles.avatarContainer}
-                onPress={() => this.props.setMenuState(true)}>
-                <Image
-                  style={styles.avatar}
-                  source={require('../../assets/avatar.jpg')}
+      <View style={styles.rootView}>
+        <Animated.View
+          style={[styles.container, {transform: [{scale: this.state.scale}]}]}>
+          <SafeAreaView>
+            <ScrollView style={styles.scroll}>
+              <View style={styles.titleBar}>
+                <IconF
+                  style={styles.icon}
+                  name="bell"
+                  size={32}
+                  color="#4775f2"
                 />
-              </TouchableOpacity>
-              <Text style={styles.title}>Welcome back</Text>
-              <Text style={styles.name}>
-                Elías {this.props.action === true ? 'true' : 'false'}
-              </Text>
-            </View>
-            <ScrollView
-              style={styles.logoScroll}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              {logos.map((item, key) => (
-                <LogoCard {...item} key={key} />
-              ))}
+                <TouchableOpacity
+                  style={styles.avatarContainer}
+                  onPress={() => this.props.setMenuState(true)}>
+                  <Image
+                    style={styles.avatar}
+                    source={require('../../assets/avatar.jpg')}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.title}>Welcome back</Text>
+                <Text style={styles.name}>Elías</Text>
+              </View>
+              <ScrollView
+                style={styles.logoScroll}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                {logos.map((item, key) => (
+                  <LogoCard {...item} key={key} />
+                ))}
+              </ScrollView>
+              <Text style={styles.subtitle}>Continue Learning</Text>
+              <ScrollView
+                style={styles.cardScroll}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                {cards.map((item, key) => (
+                  <Card {...item} key={key} />
+                ))}
+              </ScrollView>
+              <Text style={styles.subtitle}>Related Courses</Text>
+              <View style={styles.relatedCardScroll}>
+                {rcards.map((item, key) => (
+                  <RelatedCard {...item} key={key} />
+                ))}
+              </View>
             </ScrollView>
-            <Text style={styles.subtitle}>Continue Learning</Text>
-            <ScrollView
-              style={styles.cardScroll}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              {cards.map((item, key) => (
-                <Card {...item} key={key} />
-              ))}
-            </ScrollView>
-            <Text style={styles.subtitle}>Related Courses</Text>
-            <View style={styles.relatedCardScroll}>
-              {rcards.map((item, key) => (
-                <RelatedCard {...item} key={key} />
-              ))}
-            </View>
-          </ScrollView>
-        </SafeAreaView>
+          </SafeAreaView>
+        </Animated.View>
         <MenuModal />
       </View>
     );
