@@ -22,7 +22,6 @@ const {width, height} = Dimensions.get('window');
 const MenuModal = (props) => {
   const dispatch = useDispatch();
   const action = useSelector((state) => state.modal.action);
-
   const [anim, setAnim] = useState({
     top: new Animated.Value(height),
     modal: false,

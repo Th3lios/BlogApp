@@ -28,9 +28,9 @@ const SectionScreen = (props) => {
       {Platform.OS === 'ios' && <StatusBar hidden />}
       <View style={styles.container}>
         <View style={styles.cover}>
-          <Image style={styles.image} source={image} />
+          <Image style={styles.image} source={{uri: image.url}} />
           <View style={styles.wrapper}>
-            <Image style={styles.logo} source={logo} />
+            <Image style={styles.logo} source={{uri: logo.url}} />
             <Text style={styles.caption}>{caption}</Text>
           </View>
           <Text style={styles.title}>{title}</Text>

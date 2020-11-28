@@ -27,44 +27,13 @@ import {
   getUsersSaga,
 } from '../../redux/actions/modalAction/modalAction';
 // graphql
-import {gql, useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/client';
+import {CardsQuery} from '../../graphql/graphql';
 // icons
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconF from 'react-native-vector-icons/FontAwesome';
 Icon.loadFont();
 IconF.loadFont();
-
-const CardsQuery = gql`
-  {
-    cardsCollection {
-      items {
-        title
-        subtitle
-        image {
-          title
-          description
-          contentType
-          fileName
-          size
-          url
-          width
-          height
-        }
-        caption
-        logo {
-          title
-          description
-          contentType
-          fileName
-          size
-          url
-          width
-          height
-        }
-      }
-    }
-  }
-`;
 
 const HomeScreen = (props) => {
   const dispatch = useDispatch();
@@ -81,10 +50,10 @@ const HomeScreen = (props) => {
       : StatusBar.setBarStyle('dark-content', true);
     Platform.OS === 'android' && StatusBar.setBackgroundColor('black', true);
     dispatch(getUsersSaga());
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     toggleMenu();
-  }, [action]);
+  });
 
   const toggleMenu = () => {
     if (action === true) {
