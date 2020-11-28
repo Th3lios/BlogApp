@@ -83,7 +83,6 @@ const HomeTabs = () => (
               color={focused ? activeColor : inactiveColor}
               size={size}
             />
-            {console.log(focused)}
           </>
         );
       },
