@@ -27,8 +27,7 @@ import {
   getUsersSaga,
 } from '../../redux/actions/modalAction/modalAction';
 // graphql
-import gql from 'graphql-tag';
-import {Query} from '@apollo/react-components';
+import {gql, useQuery} from '@apollo/client';
 // icons
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconF from 'react-native-vector-icons/FontAwesome';
@@ -71,12 +70,11 @@ const HomeScreen = (props) => {
   const dispatch = useDispatch();
   const action = useSelector((state) => state.modal.action);
   const currUser = useSelector((state) => state.modal.user);
-
+  const {loading, error, data} = useQuery(CardsQuery);
   const [anim, setAnim] = useState({
     scale: new Animated.Value(1),
     opacity: new Animated.Value(1),
   });
-
   useEffect(() => {
     Platform.OS === 'android'
       ? StatusBar.setBarStyle('light-content', true)
@@ -84,7 +82,6 @@ const HomeScreen = (props) => {
     Platform.OS === 'android' && StatusBar.setBackgroundColor('black', true);
     dispatch(getUsersSaga());
   }, []);
-
   useEffect(() => {
     toggleMenu();
   }, [action]);
@@ -120,6 +117,8 @@ const HomeScreen = (props) => {
     }
   };
 
+  if (loading) return <Text>'Loading...'</Text>;
+  if (error) return <Text>{`Error! ${error.message}`}</Text>;
   return (
     <View style={styles.rootView}>
       <Animated.View
@@ -166,7 +165,7 @@ const HomeScreen = (props) => {
               style={styles.cardScroll}
               horizontal={true}
               showsHorizontalScrollIndicator={false}>
-              {cards.map((item, key) => (
+              {data.cardsCollection.items.map((item, key) => (
                 <TouchableOpacity
                   key={key}
                   onPress={() => props.navigation.push('Section', {...item})}>

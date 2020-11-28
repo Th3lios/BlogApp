@@ -5,11 +5,11 @@ const Card = ({title, caption, subtitle, image, logo}) => {
   return (
     <View style={styles.container}>
       <View style={styles.cover}>
-        <Image style={styles.image} source={image} />
+        <Image style={styles.image} source={{uri: image.url}} />
         <Text style={styles.title}>{title}</Text>
       </View>
       <View style={styles.content}>
-        <Image style={styles.logo} source={logo} />
+        <Image style={styles.logo} source={{uri: logo.url}} />
         <View style={styles.wrapper}>
           <Text style={styles.caption}>{caption}</Text>
           <Text style={styles.subtitle}>{subtitle}</Text>

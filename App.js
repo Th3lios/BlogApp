@@ -19,11 +19,13 @@ const {store, persistor} = configureStore();
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <AppNavigator />
-      </PersistGate>
-    </Provider>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <AppNavigator />
+        </PersistGate>
+      </Provider>
+    </ApolloProvider>
   );
 };
 
