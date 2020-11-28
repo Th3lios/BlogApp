@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
+
 const LogoCard = ({image, text}) => {
   return (
     <View style={styles.container}>

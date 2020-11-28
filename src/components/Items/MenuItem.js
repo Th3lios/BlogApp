@@ -1,6 +1,6 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 Icon.loadFont();
 
 const MenuItem = ({icon, title, text}) => {
@@ -12,31 +12,28 @@ const MenuItem = ({icon, title, text}) => {
         <Text style={styles.text}>{text}</Text>
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    margin: 15
+    flexDirection: 'row',
+    margin: 15,
   },
-  icon: {
-
-  },
+  icon: {},
   content: {
-    paddingLeft: 25
+    paddingLeft: 25,
   },
   title: {
-    color: "#3c4560",
+    color: '#3c4560',
     fontSize: 24,
-    fontWeight: "600"
+    fontWeight: '600',
   },
   text: {
     fontSize: 16,
-    color: "#3c4560",
-    opacity: 0.6
-  }
+    color: '#3c4560',
+    opacity: 0.6,
+  },
+});
 
-})
-
-export default MenuItem
+export default MenuItem;

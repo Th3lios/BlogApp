@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,40 +14,37 @@ import IconF from 'react-native-vector-icons/FontAwesome';
 Icon.loadFont();
 IconF.loadFont();
 
-class SectionScreen extends Component {
-  componentDidMount() {
+const SectionScreen = (props) => {
+  useEffect(() => {
     Platform.OS === 'ios' && StatusBar.setBarStyle('light-content', true);
-  }
+    return () => {
+      Platform.OS === 'ios' && StatusBar.setBarStyle('dark-content', true);
+    };
+  });
 
-  componentWillUnmount() {
-    Platform.OS === 'ios' && StatusBar.setBarStyle('dark-content', true);
-  }
-
-  render() {
-    const {title, caption, subtitle, image, logo} = this.props.route.params;
-    return (
-      <View style={styles.rootView}>
-        {Platform.OS === 'ios' && <StatusBar hidden />}
-        <View style={styles.container}>
-          <View style={styles.cover}>
-            <Image style={styles.image} source={image} />
-            <View style={styles.wrapper}>
-              <Image style={styles.logo} source={logo} />
-              <Text style={styles.caption}>{caption}</Text>
-            </View>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.subtitle}>{subtitle}</Text>
-            <TouchableOpacity
-              style={styles.closed}
-              onPress={() => this.props.navigation.goBack()}>
-              <Icon name="close" size={24} color="#546bfb" />
-            </TouchableOpacity>
+  const {title, caption, subtitle, image, logo} = props.route.params;
+  return (
+    <View style={styles.rootView}>
+      {Platform.OS === 'ios' && <StatusBar hidden />}
+      <View style={styles.container}>
+        <View style={styles.cover}>
+          <Image style={styles.image} source={image} />
+          <View style={styles.wrapper}>
+            <Image style={styles.logo} source={logo} />
+            <Text style={styles.caption}>{caption}</Text>
           </View>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.subtitle}>{subtitle}</Text>
+          <TouchableOpacity
+            style={styles.closed}
+            onPress={() => props.navigation.goBack()}>
+            <Icon name="close" size={24} color="#546bfb" />
+          </TouchableOpacity>
         </View>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   rootView: {

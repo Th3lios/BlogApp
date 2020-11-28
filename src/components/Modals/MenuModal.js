@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   View,
   StyleSheet,
@@ -12,73 +13,69 @@ import MenuItem from '../Items/MenuItem';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconF from 'react-native-vector-icons/FontAwesome';
 import {mitem} from '../../data/cardData';
-import {connect} from 'react-redux';
 import {setMenuModal} from '../../redux/actions/modalAction/modalAction';
 Icon.loadFont();
 IconF.loadFont();
 
 const {width, height} = Dimensions.get('window');
 
-class MenuModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      top: new Animated.Value(height),
-      modal: false,
-    };
-  }
+const MenuModal = (props) => {
+  const dispatch = useDispatch();
+  const action = useSelector((state) => state.modal.action);
 
-  componentDidMount() {
-    this.props.setMenuModal(false);
-  }
+  const [anim, setAnim] = useState({
+    top: new Animated.Value(height),
+    modal: false,
+  });
 
-  componentDidUpdate() {
-    this.toggleMenu();
-  }
+  useEffect(() => {
+    dispatch(setMenuModal(false));
+  }, []);
 
-  toggleMenu = () => {
-    if (this.props.action === true) {
-      Animated.spring(this.state.top, {
+  useEffect(() => {
+    toggleMenu();
+  }, [action]);
+
+  const toggleMenu = () => {
+    if (action === true) {
+      Animated.spring(anim.top, {
         toValue: 0,
         duration: 1500,
         useNativeDriver: false,
       }).start();
     }
 
-    if (this.props.action === false) {
-      Animated.spring(this.state.top, {
+    if (action === false) {
+      Animated.spring(anim.top, {
         toValue: height,
         duration: 1500,
         useNativeDriver: false,
       }).start();
     }
   };
-
-  render() {
-    return (
-      <Animated.View style={[styles.container, {top: this.state.top}]}>
-        <View style={styles.cover}>
-          <Image
-            style={styles.image}
-            source={require('../../assets/background12.jpg')}
-          />
-          <Text style={styles.author}>Elías Araya</Text>
-          <Text style={styles.subtitle}>Front-end Developer</Text>
-        </View>
-        <TouchableOpacity
-          onPress={() => this.props.setMenuModal(false)}
-          style={styles.iconButton}>
-          <IconF style={styles.closed} name="close" size={24} color="#546bfb" />
-        </TouchableOpacity>
-        <View style={styles.content}>
-          {mitem.map((item, key) => (
-            <MenuItem {...item} key={key} />
-          ))}
-        </View>
-      </Animated.View>
-    );
-  }
-}
+  return (
+    <Animated.View style={[styles.container, {top: anim.top}]}>
+      <View style={styles.cover}>
+        <Image
+          style={styles.image}
+          source={require('../../assets/background12.jpg')}
+        />
+        <Text style={styles.author}>Elías Araya</Text>
+        <Text style={styles.subtitle}>Front-end Developer</Text>
+      </View>
+      <TouchableOpacity
+        onPress={() => dispatch(setMenuModal(false))}
+        style={styles.iconButton}>
+        <IconF style={styles.closed} name="close" size={24} color="#546bfb" />
+      </TouchableOpacity>
+      <View style={styles.content}>
+        {mitem.map((item, key) => (
+          <MenuItem {...item} key={key} />
+        ))}
+      </View>
+    </Animated.View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -144,16 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    action: state.modal.action,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setMenuModal: (value) => dispatch(setMenuModal(value)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MenuModal);
+export default MenuModal;
