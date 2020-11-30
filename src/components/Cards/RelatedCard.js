@@ -1,5 +1,18 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+
+const screenWidth = Dimensions.get('window').width;
+
+const getCourseWidth = (screenWidth) => {
+  var cardWidth = screenWidth - 40;
+  if (screenWidth >= 768) {
+    cardWidth = (screenWidth - 60) / 2;
+  }
+  if (screenWidth >= 1024) {
+    cardWidth = (screenWidth - 80) / 3;
+  }
+  return cardWidth;
+};
 
 const RelatedCard = ({
   title,
@@ -10,8 +23,16 @@ const RelatedCard = ({
   logo,
   avatar,
 }) => {
+  const [cardWidth, setCardWidth] = useState(getCourseWidth(screenWidth));
+  useEffect(() => {
+    Dimensions.addEventListener('change', adaptLayout);
+  });
+
+  const adaptLayout = (dimensions) => {
+    setCardWidth(getCourseWidth(dimensions.window.width));
+  };
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {width: cardWidth}]}>
       <View style={styles.cover}>
         <Image style={styles.image} source={image} />
         <Image style={styles.logo} source={logo} />
@@ -32,7 +53,7 @@ const RelatedCard = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    height: 280,
+    height: 300,
     borderRadius: 14,
     marginHorizontal: 10,
     marginTop: 20,
@@ -49,7 +70,7 @@ const styles = StyleSheet.create({
   },
   cover: {
     width: '100%',
-    height: 200,
+    height: 230,
     borderTopLeftRadius: 14,
     borderTopRightRadius: 14,
     overflow: 'hidden',

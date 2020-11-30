@@ -71,6 +71,8 @@ export default styles = StyleSheet.create({
     marginHorizontal: 10,
     overflow: 'visible',
     paddingBottom: 20,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   icon: {
     position: 'absolute',

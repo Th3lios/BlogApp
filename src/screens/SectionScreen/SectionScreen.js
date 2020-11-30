@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   content: {
-    height: 1300,
+    height: 1400,
     padding: 20,
   },
   markdown: {

@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+const {width, height} = Dimensions.get('window');
 
 const Card = ({title, caption, subtitle, image, logo}) => {
   return (
@@ -22,7 +23,7 @@ const Card = ({title, caption, subtitle, image, logo}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    width: 300,
+    width: 315,
     height: 280,
     borderRadius: 14,
     marginHorizontal: 10,

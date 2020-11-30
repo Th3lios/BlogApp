@@ -18,7 +18,10 @@ Icon.loadFont();
 IconF.loadFont();
 
 const {width, height} = Dimensions.get('window');
-
+var cardWidth = width;
+if (width >= 500) {
+  cardWidth = 500;
+}
 const MenuModal = (props) => {
   const dispatch = useDispatch();
   const action = useSelector((state) => state.modal.action);
@@ -81,11 +84,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#f0f3f5',
     height: height,
-    width: width,
+    width: cardWidth,
     borderRadius: 25,
     overflow: 'hidden',
-    left: 0,
     marginTop: 50,
+    zIndex: 999,
+    alignSelf: 'center',
   },
   cover: {
     height: 142,
