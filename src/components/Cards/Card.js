@@ -23,7 +23,7 @@ const Card = ({title, caption, subtitle, image, logo}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    width: 315,
+    width: 300,
     height: 280,
     borderRadius: 14,
     marginHorizontal: 10,

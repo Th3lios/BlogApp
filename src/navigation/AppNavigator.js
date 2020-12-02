@@ -11,7 +11,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 // screens
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import SectionScreen from '../screens/SectionScreen/SectionScreen';
-
+import ProjectScreen from '../screens/ProjectScreen/ProjectScreen';
+import CoursesScreen from '../screens/CoursesScreen/CoursesScreen';
 // icons
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconF from 'react-native-vector-icons/FontAwesome';
@@ -45,8 +46,8 @@ const createHomeStack = () => (
 const createCoursesStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name="Section"
-      component={SectionScreen}
+      name="Courses"
+      component={CoursesScreen}
       options={{
         headerShown: false,
       }}
@@ -57,8 +58,8 @@ const createCoursesStack = () => (
 const createProjectsStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name="Section"
-      component={SectionScreen}
+      name="Projects"
+      component={ProjectScreen}
       options={{
         headerShown: false,
       }}
