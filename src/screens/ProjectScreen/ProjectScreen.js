@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useRef, useMemo} from 'react';
 import {View, StyleSheet, Animated, PanResponder} from 'react-native';
 import Project from '../../components/Projects/Project';
+import {rcards} from '../../data/cardData';
 
 const ProjectScreen = () => {
+  const [index, setIndex] = useState(0);
   const [pan] = useState(new Animated.ValueXY());
   const [scale] = useState(new Animated.Value(0.9));
   const [translateY] = useState(new Animated.Value(44));
@@ -37,11 +39,13 @@ const ProjectScreen = () => {
             toValue: {x: 0, y: 1000},
             useNativeDriver: false,
           }).start(() => {
-            pan.setValue({x: 0, y: 0});
             scale.setValue(0.9);
             translateY.setValue(44);
             thirdScale.setValue(0.8);
             thirdTranslateY.setValue(-50);
+            pan.x.setValue(0);
+            pan.y.setValue(0);
+            setIndex((prevState) => getNextIndex(prevState));
           });
         } else {
           Animated.spring(pan, {
@@ -69,6 +73,14 @@ const ProjectScreen = () => {
     }),
   ).current;
 
+  const getNextIndex = (index) => {
+    var nextIndex = index + 1;
+    if (nextIndex > rcards.length - 1) {
+      return 0;
+    }
+    return nextIndex;
+  };
+
   return (
     <View style={styles.container}>
       <Animated.View
@@ -76,21 +88,36 @@ const ProjectScreen = () => {
           styles.project,
           {transform: [{scale: thirdScale}, {translateY: thirdTranslateY}]},
         ]}>
-        <Project />
+        <Project
+          title={rcards[getNextIndex(index + 1)].title}
+          author={rcards[getNextIndex(index + 1)].author}
+          text={rcards[getNextIndex(index + 1)].caption}
+          image={rcards[getNextIndex(index + 1)].image}
+        />
       </Animated.View>
       <Animated.View
         style={[
           styles.project,
           {transform: [{scale: scale}, {translateY: translateY}]},
         ]}>
-        <Project />
+        <Project
+          title={rcards[getNextIndex(index)].title}
+          author={rcards[getNextIndex(index)].author}
+          text={rcards[getNextIndex(index)].caption}
+          image={rcards[getNextIndex(index)].image}
+        />
       </Animated.View>
       <Animated.View
         style={{
           transform: [{translateX: pan.x}, {translateY: pan.y}],
         }}
         {...panResponder.panHandlers}>
-        <Project />
+        <Project
+          title={rcards[index].title}
+          author={rcards[index].author}
+          text={rcards[index].caption}
+          image={rcards[index].image}
+        />
       </Animated.View>
     </View>
   );

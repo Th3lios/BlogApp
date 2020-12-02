@@ -1,18 +1,15 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-const Project = () => {
+const Project = ({title, author, text, image}) => {
   return (
     <View style={styles.container}>
       <View style={styles.cover}>
-        <Image
-          source={require('../../assets/background1.jpg')}
-          style={styles.image}
-        />
-        <Text style={styles.title}>React Native</Text>
-        <Text style={styles.author}>Elías Araya</Text>
+        <Image source={image} style={styles.image} />
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.author}>{author}</Text>
       </View>
       <View style={styles.content}>
-        <Text style={styles.text}>Content</Text>
+        <Text style={styles.text}>{text}</Text>
       </View>
     </View>
   );
