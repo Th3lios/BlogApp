@@ -13,6 +13,7 @@ target 'BlogApp' do
     # Pods for testing
   end
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
@@ -20,6 +21,7 @@ target 'BlogApp' do
   use_flipper!
   post_install do |installer|
     flipper_post_install(installer)
+    
   end
 end
 

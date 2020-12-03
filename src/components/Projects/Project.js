@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {setPanStatuSaga} from '../../redux/actions/modalAction/modalAction';
 import {useDispatch} from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 Icon.loadFont();
 const {width, height} = Dimensions.get('window');
@@ -23,11 +24,15 @@ const Project = ({title, author, text, image, setPanState, canOpen}) => {
   const [titleTop] = useState(new Animated.Value(20));
   const [closeButton] = useState(new Animated.Value(0.7));
   const [opacity] = useState(new Animated.Value(0));
+  const [textHeight] = useState(new Animated.Value(170));
   const openCard = () => {
     if (!canOpen) {
       return;
     }
     dispatch(setPanStatuSaga(false));
+    Animated.spring(textHeight, {
+      toValue: 1000,
+    }).start();
     Animated.spring(cardWidth, {
       toValue: width,
     }).start();
@@ -47,6 +52,9 @@ const Project = ({title, author, text, image, setPanState, canOpen}) => {
   };
   const closeCard = () => {
     dispatch(setPanStatuSaga(true));
+    Animated.spring(textHeight, {
+      toValue: 170,
+    }).start();
     Animated.spring(cardWidth, {
       toValue: 315,
     }).start();
@@ -75,9 +83,17 @@ const Project = ({title, author, text, image, setPanState, canOpen}) => {
           </Animated.Text>
           <Text style={styles.author}>{author}</Text>
         </View>
-        <View style={styles.content}>
+        <Animated.View style={[styles.content, {height: textHeight}]}>
           <Text style={styles.text}>{text}</Text>
-        </View>
+          <LinearGradient
+            style={styles.gradient}
+            colors={[
+              'rgba(255,255,255,0)',
+              'rgba(255,255,255,0)',
+              'rgba(255,255,255,1)',
+            ]}
+          />
+        </Animated.View>
         <TouchableOpacity
           style={styles.closeContainer}
           onPress={() => closeCard()}>
@@ -161,6 +177,15 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  gradient: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    top: 0,
+    left: 0,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
   },
 });
 

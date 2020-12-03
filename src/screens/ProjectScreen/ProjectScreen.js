@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useMemo} from 'react';
 import {View, StyleSheet, Animated, PanResponder} from 'react-native';
 import Project from '../../components/Projects/Project';
-import {rcards} from '../../data/cardData';
+import {pcards} from '../../data/cardData';
 import {useDispatch, useSelector} from 'react-redux';
 const ProjectScreen = () => {
   const [index, setIndex] = useState(0);
@@ -88,7 +88,7 @@ const ProjectScreen = () => {
 
   const getNextIndex = (index) => {
     var nextIndex = index + 1;
-    if (nextIndex > rcards.length - 1) {
+    if (nextIndex > pcards.length - 1) {
       return 0;
     }
     return nextIndex;
@@ -103,10 +103,10 @@ const ProjectScreen = () => {
           {transform: [{scale: thirdScale}, {translateY: thirdTranslateY}]},
         ]}>
         <Project
-          title={rcards[getNextIndex(index + 1)].title}
-          author={rcards[getNextIndex(index + 1)].author}
-          text={rcards[getNextIndex(index + 1)].caption}
-          image={rcards[getNextIndex(index + 1)].image}
+          title={pcards[getNextIndex(index + 1)].title}
+          author={pcards[getNextIndex(index + 1)].author}
+          text={pcards[getNextIndex(index + 1)].caption}
+          image={pcards[getNextIndex(index + 1)].image}
         />
       </Animated.View>
       <Animated.View
@@ -115,10 +115,10 @@ const ProjectScreen = () => {
           {transform: [{scale: scale}, {translateY: translateY}]},
         ]}>
         <Project
-          title={rcards[getNextIndex(index)].title}
-          author={rcards[getNextIndex(index)].author}
-          text={rcards[getNextIndex(index)].caption}
-          image={rcards[getNextIndex(index)].image}
+          title={pcards[getNextIndex(index)].title}
+          author={pcards[getNextIndex(index)].author}
+          text={pcards[getNextIndex(index)].caption}
+          image={pcards[getNextIndex(index)].image}
         />
       </Animated.View>
       <Animated.View
@@ -128,10 +128,10 @@ const ProjectScreen = () => {
         }}
         {...panResponder.panHandlers}>
         <Project
-          title={rcards[index].title}
-          author={rcards[index].author}
-          text={rcards[index].caption}
-          image={rcards[index].image}
+          title={pcards[index].title}
+          author={pcards[index].author}
+          text={pcards[index].caption}
+          image={pcards[index].image}
           canOpen={true}
         />
       </Animated.View>
