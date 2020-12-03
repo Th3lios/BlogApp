@@ -1,24 +1,101 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-const Project = ({title, author, text, image}) => {
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Animated,
+  Dimensions,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
+import {setPanStatuSaga} from '../../redux/actions/modalAction/modalAction';
+import {useDispatch} from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
+Icon.loadFont();
+const {width, height} = Dimensions.get('window');
+const tabHeight = 79;
+const Project = ({title, author, text, image, setPanState, canOpen}) => {
+  const dispatch = useDispatch();
+  const [cardWidth] = useState(new Animated.Value(315));
+  const [cardHeight] = useState(new Animated.Value(460));
+  const [titleTop] = useState(new Animated.Value(20));
+  const [closeButton] = useState(new Animated.Value(0.7));
+  const [opacity] = useState(new Animated.Value(0));
+  const openCard = () => {
+    if (!canOpen) {
+      return;
+    }
+    dispatch(setPanStatuSaga(false));
+    Animated.spring(cardWidth, {
+      toValue: width,
+    }).start();
+    Animated.spring(cardHeight, {
+      toValue: height - tabHeight,
+    }).start();
+    Animated.spring(titleTop, {
+      toValue: 60,
+    }).start();
+    Animated.spring(closeButton, {
+      toValue: 1,
+    }).start();
+    Animated.spring(opacity, {
+      toValue: 1,
+    }).start();
+    StatusBar.setHidden(true);
+  };
+  const closeCard = () => {
+    dispatch(setPanStatuSaga(true));
+    Animated.spring(cardWidth, {
+      toValue: 315,
+    }).start();
+    Animated.spring(cardHeight, {
+      toValue: 460,
+    }).start();
+    Animated.spring(titleTop, {
+      toValue: 20,
+    }).start();
+    Animated.spring(closeButton, {
+      toValue: 0.7,
+    }).start();
+    Animated.spring(opacity, {
+      toValue: 0,
+    }).start();
+    StatusBar.setHidden(false);
+  };
   return (
-    <View style={styles.container}>
-      <View style={styles.cover}>
-        <Image source={image} style={styles.image} />
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.author}>{author}</Text>
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.text}>{text}</Text>
-      </View>
-    </View>
+    <TouchableWithoutFeedback onPress={() => openCard()}>
+      <Animated.View
+        style={[styles.container, {width: cardWidth, height: cardHeight}]}>
+        <View style={styles.cover}>
+          <Image source={image} style={styles.image} />
+          <Animated.Text style={[styles.title, {top: titleTop}]}>
+            {title}
+          </Animated.Text>
+          <Text style={styles.author}>{author}</Text>
+        </View>
+        <View style={styles.content}>
+          <Text style={styles.text}>{text}</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.closeContainer}
+          onPress={() => closeCard()}>
+          <Animated.View
+            style={[
+              styles.closeView,
+              {opacity: opacity, transform: [{scale: closeButton}]},
+            ]}>
+            <Icon name="close" size={32} color="#546bfb" />
+          </Animated.View>
+        </TouchableOpacity>
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: 460,
-    width: 315,
     backgroundColor: 'white',
     borderRadius: 14,
     // ios
@@ -49,7 +126,6 @@ const styles = StyleSheet.create({
   },
   title: {
     position: 'absolute',
-    top: 20,
     left: 20,
     color: 'white',
     fontWeight: '700',
@@ -72,6 +148,19 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 24,
     color: '#3c4560',
+  },
+  closeContainer: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+  closeView: {
+    height: 32,
+    width: 32,
+    backgroundColor: 'white',
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

@@ -15,6 +15,14 @@ function* setMenuModal(action) {
   }
 }
 
+function* setPanStatus(action) {
+  try {
+    yield put({type: actionTypes.SET_PAN_STATUS_REDUCER, data: action.data});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 function* getUsers(action) {
   try {
     const result = yield call(apiCall, 'get', 'https://randomuser.me/api/?ext');
@@ -29,4 +37,5 @@ function* getUsers(action) {
 export default function* modal() {
   yield takeLatest(actionTypes.SET_MENU_MODAL, setMenuModal);
   yield takeLatest(actionTypes.GET_USERS_SAGA, getUsers);
+  yield takeLatest(actionTypes.SET_PAN_STATUS_SAGA, setPanStatus);
 }
