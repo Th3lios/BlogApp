@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   StatusBar,
+  Platform,
 } from 'react-native';
 import {setPanStatuSaga} from '../../redux/actions/modalAction/modalAction';
 import {useDispatch} from 'react-redux';
@@ -16,7 +17,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 Icon.loadFont();
 const {width, height} = Dimensions.get('window');
-const tabHeight = 79;
+const tabHeight = Platform.OS === 'ios' ? 79 : 49;
 const Project = ({title, author, text, image, setPanState, canOpen}) => {
   const dispatch = useDispatch();
   const [cardWidth] = useState(new Animated.Value(315));
@@ -24,15 +25,33 @@ const Project = ({title, author, text, image, setPanState, canOpen}) => {
   const [titleTop] = useState(new Animated.Value(20));
   const [closeButton] = useState(new Animated.Value(0.7));
   const [opacity] = useState(new Animated.Value(0));
-  const [textHeight] = useState(new Animated.Value(170));
+  const [textHeight] = useState(new Animated.Value(140));
+  const [backColor] = useState(new Animated.Value(0));
+  const [borderRadius] = useState(new Animated.Value(14));
+  const [gradientState, setGradientState] = useState(true);
+  const boxInterpolation = backColor.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['rgba(255,255,255, 1)', 'rgba(0,0,0, 1)'],
+  });
+
   const openCard = () => {
     if (!canOpen) {
       return;
     }
     dispatch(setPanStatuSaga(false));
-    Animated.spring(textHeight, {
+    setGradientState(false);
+    Animated.timing(textHeight, {
       toValue: 1000,
+      duration: 300,
     }).start();
+    if (Platform.OS === 'android') {
+      Animated.timing(borderRadius, {
+        toValue: 0,
+      }).start();
+      Animated.timing(backColor, {
+        toValue: 1,
+      }).start();
+    }
     Animated.spring(cardWidth, {
       toValue: width,
     }).start();
@@ -51,10 +70,20 @@ const Project = ({title, author, text, image, setPanState, canOpen}) => {
     StatusBar.setHidden(true);
   };
   const closeCard = () => {
+    setGradientState(true);
     dispatch(setPanStatuSaga(true));
-    Animated.spring(textHeight, {
-      toValue: 170,
+    Animated.timing(textHeight, {
+      toValue: 140,
+      duration: 200,
     }).start();
+    if (Platform.OS === 'android') {
+      Animated.timing(borderRadius, {
+        toValue: 14,
+      }).start();
+      Animated.timing(backColor, {
+        toValue: 0,
+      }).start();
+    }
     Animated.spring(cardWidth, {
       toValue: 315,
     }).start();
@@ -75,45 +104,56 @@ const Project = ({title, author, text, image, setPanState, canOpen}) => {
   return (
     <TouchableWithoutFeedback onPress={() => openCard()}>
       <Animated.View
-        style={[styles.container, {width: cardWidth, height: cardHeight}]}>
-        <View style={styles.cover}>
-          <Image source={image} style={styles.image} />
-          <Animated.Text style={[styles.title, {top: titleTop}]}>
-            {title}
-          </Animated.Text>
-          <Text style={styles.author}>{author}</Text>
-        </View>
-        <Animated.View style={[styles.content, {height: textHeight}]}>
-          <Text style={styles.text}>{text}</Text>
-          <LinearGradient
-            style={styles.gradient}
-            colors={[
-              'rgba(255,255,255,0)',
-              'rgba(255,255,255,0)',
-              'rgba(255,255,255,1)',
-            ]}
-          />
+        style={[
+          styles.wrapper,
+          Platform.OS === 'android'
+            ? {backgroundColor: boxInterpolation, borderRadius: borderRadius}
+            : {backgroundColor: '#0000', borderRadius: 14},
+        ]}>
+        <Animated.View
+          style={[styles.container, {width: cardWidth, height: cardHeight}]}>
+          <View style={styles.cover}>
+            <Image source={image} style={styles.image} />
+            <Animated.Text style={[styles.title, {top: titleTop}]}>
+              {title}
+            </Animated.Text>
+            <Text style={styles.author}>{author}</Text>
+          </View>
+          <View style={[styles.content]}>
+            <Text style={styles.text}>{text}</Text>
+          </View>
+          {gradientState && (
+            <LinearGradient
+              style={styles.gradient}
+              colors={[
+                'rgba(255,255,255,0)',
+                'rgba(255,255,255,0)',
+                'rgba(255,255,255,0)',
+                'rgba(255,255,255,0)',
+                'rgba(255,255,255,0)',
+                'rgba(255,255,255,1)',
+              ]}
+            />
+          )}
+          <TouchableOpacity
+            style={styles.closeContainer}
+            onPress={() => closeCard()}>
+            <Animated.View
+              style={[
+                styles.closeView,
+                {opacity: opacity, transform: [{scale: closeButton}]},
+              ]}>
+              <Icon name="close" size={32} color="#546bfb" />
+            </Animated.View>
+          </TouchableOpacity>
         </Animated.View>
-        <TouchableOpacity
-          style={styles.closeContainer}
-          onPress={() => closeCard()}>
-          <Animated.View
-            style={[
-              styles.closeView,
-              {opacity: opacity, transform: [{scale: closeButton}]},
-            ]}>
-            <Icon name="close" size={32} color="#546bfb" />
-          </Animated.View>
-        </TouchableOpacity>
       </Animated.View>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    borderRadius: 14,
+  wrapper: {
     // ios
     shadowColor: '#000',
     shadowOffset: {
@@ -124,6 +164,11 @@ const styles = StyleSheet.create({
     shadowRadius: 9.51,
     // android
     elevation: 5,
+  },
+  container: {
+    overflow: 'hidden',
+    backgroundColor: 'white',
+    borderRadius: 14,
   },
   cover: {
     height: 290,
