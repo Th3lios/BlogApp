@@ -24,31 +24,31 @@ const ProjectScreen = () => {
     onPanResponderGrant: () => {
       Animated.timing(maskOpacity, {
         toValue: 1,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start();
       Animated.spring(scale, {
         toValue: 1,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start();
       Animated.spring(translateY, {
         toValue: 0,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start();
       Animated.spring(thirdScale, {
         toValue: 0.9,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start();
       Animated.spring(thirdTranslateY, {
         toValue: 44,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start();
     },
     onPanResponderRelease: () => {
       const positionY = pan.y.__getValue();
-      if (positionY > 200) {
+      if (positionY > 150) {
         Animated.timing(pan, {
-          toValue: {x: 0, y: 1000},
-          useNativeDriver: false,
+          toValue: {x: 0, y: 700},
+          useNativeDriver: true,
         }).start(() => {
           setIndex((prevState) => getNextIndex(prevState));
           scale.setValue(0.9);
@@ -61,23 +61,23 @@ const ProjectScreen = () => {
       } else {
         Animated.spring(pan, {
           toValue: {x: 0, y: 0},
-          useNativeDriver: false,
+          useNativeDriver: true,
         }).start();
         Animated.spring(scale, {
           toValue: 0.9,
-          useNativeDriver: false,
+          useNativeDriver: true,
         }).start();
         Animated.spring(translateY, {
           toValue: 44,
-          useNativeDriver: false,
+          useNativeDriver: true,
         }).start();
         Animated.spring(thirdScale, {
           toValue: 0.8,
-          useNativeDriver: false,
+          useNativeDriver: true,
         }).start();
         Animated.spring(thirdTranslateY, {
           toValue: -50,
-          useNativeDriver: false,
+          useNativeDriver: true,
         }).start();
       }
       Animated.timing(maskOpacity, {

@@ -75,29 +75,37 @@ const Project = ({title, author, text, image, setPanState, canOpen}) => {
     Animated.timing(textHeight, {
       toValue: 140,
       duration: 200,
+      useNativeDriver: true,
     }).start();
     if (Platform.OS === 'android') {
       Animated.timing(borderRadius, {
         toValue: 14,
+        useNativeDriver: true,
       }).start();
       Animated.timing(backColor, {
         toValue: 0,
+        useNativeDriver: true,
       }).start();
     }
     Animated.spring(cardWidth, {
       toValue: 315,
+      useNativeDriver: true,
     }).start();
     Animated.spring(cardHeight, {
       toValue: 460,
+      useNativeDriver: true,
     }).start();
     Animated.spring(titleTop, {
       toValue: 20,
+      useNativeDriver: true,
     }).start();
     Animated.spring(closeButton, {
       toValue: 0.7,
+      useNativeDriver: true,
     }).start();
     Animated.spring(opacity, {
       toValue: 0,
+      useNativeDriver: true,
     }).start();
     StatusBar.setHidden(false);
   };
