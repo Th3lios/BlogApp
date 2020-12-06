@@ -24,23 +24,23 @@ const ProjectScreen = () => {
     onPanResponderGrant: () => {
       Animated.timing(maskOpacity, {
         toValue: 1,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
       Animated.spring(scale, {
         toValue: 1,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
       Animated.spring(translateY, {
         toValue: 0,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
       Animated.spring(thirdScale, {
         toValue: 0.9,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
       Animated.spring(thirdTranslateY, {
         toValue: 44,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
     },
     onPanResponderRelease: () => {
@@ -48,7 +48,7 @@ const ProjectScreen = () => {
       if (positionY > 150) {
         Animated.timing(pan, {
           toValue: {x: 0, y: 700},
-          useNativeDriver: true,
+          useNativeDriver: false,
         }).start(() => {
           setIndex((prevState) => getNextIndex(prevState));
           scale.setValue(0.9);
@@ -61,23 +61,23 @@ const ProjectScreen = () => {
       } else {
         Animated.spring(pan, {
           toValue: {x: 0, y: 0},
-          useNativeDriver: true,
+          useNativeDriver: false,
         }).start();
         Animated.spring(scale, {
           toValue: 0.9,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }).start();
         Animated.spring(translateY, {
           toValue: 44,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }).start();
         Animated.spring(thirdScale, {
           toValue: 0.8,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }).start();
         Animated.spring(thirdTranslateY, {
           toValue: -50,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }).start();
       }
       Animated.timing(maskOpacity, {
