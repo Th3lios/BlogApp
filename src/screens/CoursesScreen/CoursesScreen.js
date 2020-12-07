@@ -6,13 +6,13 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 const CoursesScreen = () => {
-  const move = useSharedValue(50, {duration: 500});
+  const move = useSharedValue(0);
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{translateY: move.value}],
   }));
   useEffect(() => {
     setTimeout(() => {
-      move.value = withTiming(0);
+      move.value = withTiming(50);
     }, 2000);
   }, []);
   return (
