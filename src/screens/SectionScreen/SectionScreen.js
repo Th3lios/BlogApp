@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f0f3f5',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    borderTopLeftRadius: Platform.OS === 'android' ? 0 : 25,
+    borderTopRightRadius: Platform.OS === 'android' ? 0 : 25,
     overflow: 'hidden',
   },
   cover: {

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 
 // eslint-disable-next-line no-undef
 export default styles = StyleSheet.create({
@@ -9,8 +9,6 @@ export default styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f0f3f5',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
     overflow: 'hidden',
   },
   scroll: {

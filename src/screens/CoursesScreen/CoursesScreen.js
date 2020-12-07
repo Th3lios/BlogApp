@@ -10,11 +10,13 @@ const CoursesScreen = () => {
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{translateY: move.value}],
   }));
+
   useEffect(() => {
     setTimeout(() => {
       move.value = withTiming(50);
     }, 2000);
   }, []);
+
   return (
     <View style={styles.container}>
       <Animated.Text style={[styles.text, animatedStyle]}>Text</Animated.Text>

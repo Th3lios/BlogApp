@@ -3,12 +3,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   View,
   StyleSheet,
-  Animated,
   Text,
   Dimensions,
   Image,
   TouchableOpacity,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSpring,
+} from 'react-native-reanimated';
 import MenuItem from '../Items/MenuItem';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconF from 'react-native-vector-icons/FontAwesome';
@@ -25,10 +30,7 @@ if (width >= 500) {
 const MenuModal = (props) => {
   const dispatch = useDispatch();
   const action = useSelector((state) => state.modal.action);
-  const [anim, setAnim] = useState({
-    top: new Animated.Value(height),
-    modal: false,
-  });
+  const top = useSharedValue(height);
 
   useEffect(() => {
     dispatch(setMenuModal(false));
@@ -40,23 +42,17 @@ const MenuModal = (props) => {
 
   const toggleMenu = () => {
     if (action === true) {
-      Animated.spring(anim.top, {
-        toValue: 0,
-        duration: 1500,
-        useNativeDriver: false,
-      }).start();
+      top.value = withSpring(0, {damping: 13});
     }
 
     if (action === false) {
-      Animated.spring(anim.top, {
-        toValue: height,
-        duration: 1500,
-        useNativeDriver: false,
-      }).start();
+      top.value = withTiming(height, {duration: 300});
     }
   };
+
+  const containerAnimStyle = useAnimatedStyle(() => ({top: top.value}));
   return (
-    <Animated.View style={[styles.container, {top: anim.top}]}>
+    <Animated.View style={[styles.container, containerAnimStyle]}>
       <View style={styles.cover}>
         <Image
           style={styles.image}

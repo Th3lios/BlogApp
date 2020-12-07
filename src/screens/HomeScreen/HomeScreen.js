@@ -7,11 +7,16 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
-  Animated,
   StatusBar,
   Easing,
   Platform,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 // components
 import Card from '../../components/Cards/Card';
 import LogoCard from '../../components/Cards/LogoCard';
@@ -40,10 +45,9 @@ const HomeScreen = (props) => {
   const action = useSelector((state) => state.modal.action);
   const currUser = useSelector((state) => state.modal.user);
   const {loading, error, data} = useQuery(CardsQuery);
-  const [anim, setAnim] = useState({
-    scale: new Animated.Value(1),
-    opacity: new Animated.Value(1),
-  });
+  const scale = useSharedValue(1);
+  const opacity = useSharedValue(1);
+  const radius = useSharedValue(0);
   useEffect(() => {
     Platform.OS === 'android'
       ? StatusBar.setBarStyle('light-content', true)
@@ -57,49 +61,39 @@ const HomeScreen = (props) => {
 
   const toggleMenu = () => {
     if (action === true) {
-      Animated.spring(anim.scale, {
-        toValue: 0.9,
-        duration: 300,
-        easing: Easing.in(),
-        useNativeDriver: false,
-      }).start();
-      Animated.spring(anim.opacity, {
-        toValue: 0.5,
-        useNativeDriver: false,
-      }).start();
+      scale.value = withTiming(0.9, {duration: 300});
+      opacity.value = withTiming(0.5);
+      radius.value = withTiming(25);
       Platform.OS === 'ios' && StatusBar.setBarStyle('light-content', true);
     }
 
     if (action === false) {
-      Animated.spring(anim.scale, {
-        toValue: 1,
-        duration: 300,
-        easing: Easing.in(),
-        useNativeDriver: false,
-      }).start();
-      Animated.spring(anim.opacity, {
-        toValue: 1,
-        useNativeDriver: false,
-      }).start();
-
+      scale.value = withTiming(1, {duration: 300});
+      opacity.value = withTiming(1);
+      radius.value = withTiming(0);
       Platform.OS === 'ios' && StatusBar.setBarStyle('dark-content', true);
     }
   };
 
-  if (loading) return <Text>'Loading...'</Text>;
-  if (error) return <Text>{`Error! ${error.message}`}</Text>;
+  const containerAnimStyle = useAnimatedStyle(() => ({
+    transform: [{scale: scale.value}],
+    opacity: opacity.value,
+    borderTopLeftRadius: Platform.OS === 'android' ? radius.value : 25,
+    borderTopRightRadius: Platform.OS === 'android' ? radius.value : 25,
+  }));
+
+  if (loading) {
+    return <Text>'Loading...'</Text>;
+  }
+  if (error) {
+    return <Text>{`Error! ${error.message}`}</Text>;
+  }
   return (
     <View style={styles.rootView}>
-      <Animated.View
-        style={[
-          styles.container,
-          {
-            transform: [{scale: anim.scale}],
-            opacity: anim.opacity,
-          },
-        ]}>
+      <Animated.View style={[styles.container, containerAnimStyle]}>
         <SafeAreaView>
           <ScrollView
+            scrollEnabled={!action}
             style={styles.scroll}
             showsVerticalScrollIndicator={false}>
             <View style={styles.titleBar}>
