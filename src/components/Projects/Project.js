@@ -59,12 +59,14 @@ const Project = ({title, author, text, image, setPanState, canOpen}) => {
       borderRadius.value = withTiming(0);
       backColor.value = withTiming(1);
     }
-    cardWidth.value = withTiming(width);
-    cardHeight.value = withTiming(height - tabHeight);
+    cardWidth.value = withTiming(width, {duration: 400});
+    cardHeight.value = withTiming(height - tabHeight, {duration: 400});
     titleTop.value = withSpring(60);
     closeButton.value = withSpring(1);
     opacity.value = withSpring(1);
-    StatusBar.setHidden(true);
+    if (Platform.OS === 'ios') {
+      StatusBar.setHidden(true);
+    }
   };
   const closeCard = () => {
     setGradientState(true);
@@ -74,21 +76,20 @@ const Project = ({title, author, text, image, setPanState, canOpen}) => {
       borderRadius.value = withTiming(14);
       backColor.value = withTiming(0);
     }
-    cardWidth.value = withTiming(315);
-    cardHeight.value = withTiming(460);
+    cardWidth.value = withTiming(315, {duration: 400});
+    cardHeight.value = withTiming(460, {duration: 400});
     titleTop.value = withSpring(20);
     closeButton.value = withSpring(0.7);
     opacity.value = withSpring(0);
-    StatusBar.setHidden(false);
+    if (Platform.OS === 'ios') {
+      StatusBar.setHidden(false);
+    }
   };
-
-  const wrapperAnimStyle = useAnimatedStyle(() => ({
-    borderRadius: borderRadius.value,
-  }));
 
   const containerAnimStyle = useAnimatedStyle(() => ({
     width: cardWidth.value,
     height: cardHeight.value,
+    borderRadius: Platform.OS === 'android' ? borderRadius.value : 14,
   }));
 
   const titleAnimStyle = useAnimatedStyle(() => ({
@@ -102,13 +103,7 @@ const Project = ({title, author, text, image, setPanState, canOpen}) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => openCard()}>
-      <Animated.View
-        style={[
-          styles.wrapper,
-          Platform.OS === 'android'
-            ? wrapperAnimStyle
-            : {backgroundColor: '#0000', borderRadius: 14},
-        ]}>
+      <Animated.View style={[styles.wrapper]}>
         <Animated.View style={[styles.container, containerAnimStyle]}>
           <View style={styles.cover}>
             <Image source={image} style={styles.image} />
@@ -158,17 +153,15 @@ const styles = StyleSheet.create({
     shadowRadius: 9.51,
     // android
     elevation: 10,
+    borderRadius: 14,
   },
   container: {
     overflow: 'hidden',
     backgroundColor: 'white',
-    borderRadius: 14,
   },
   cover: {
     height: 290,
     backgroundColor: '#cccc',
-    borderTopLeftRadius: 14,
-    borderTopRightRadius: 14,
   },
   image: {
     position: 'absolute',
@@ -176,8 +169,6 @@ const styles = StyleSheet.create({
     left: 0,
     height: '100%',
     width: '100%',
-    borderTopLeftRadius: 14,
-    borderTopRightRadius: 14,
   },
   title: {
     position: 'absolute',
