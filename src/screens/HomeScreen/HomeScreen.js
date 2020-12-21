@@ -22,6 +22,7 @@ import Card from '../../components/Cards/Card';
 import LogoCard from '../../components/Cards/LogoCard';
 import RelatedCard from '../../components/Cards/RelatedCard';
 import MenuModal from '../../components/Modals/MenuModal';
+import LoginModal from '../../components/Modals/LoginModal';
 // style
 import styles from './HomeScreenStyle';
 // data
@@ -146,6 +147,7 @@ const HomeScreen = (props) => {
         </SafeAreaView>
       </Animated.View>
       <MenuModal />
+      <LoginModal />
     </View>
   );
 };
