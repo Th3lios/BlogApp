@@ -15,6 +15,7 @@ import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.bridge.JSIModulePackage; // <- add
 import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
+import com.cmcewen.blurview.BlurViewPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 

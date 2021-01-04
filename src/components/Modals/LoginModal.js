@@ -1,11 +1,38 @@
 import React, {useState} from 'react';
-import {View, Text, Image, TextInput, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import {BlurView} from '@react-native-community/blur';
 
 const LoginModal = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [iconEmail, setIconEmail] = useState(
+    require('../../assets/icon-email.png'),
+  );
+  const [iconPassword, setIconPassword] = useState(
+    require('../../assets/icon-password.png'),
+  );
+  const handleLogin = () => {
+    return console.log(email, password);
+  };
+  const focusEmail = () => {
+    setIconEmail(require('../../assets/icon-email-animated.gif'));
+    setIconPassword(require('../../assets/icon-password.png'));
+  };
+  const focusPassword = () => {
+    setIconEmail(require('../../assets/icon-email.png'));
+    setIconPassword(require('../../assets/icon-password-animated.gif'));
+  };
   return (
     <View style={styles.container}>
+      <BlurView style={styles.blur} blurType="light" blurAmount={100} />
       <View style={styles.modal}>
         <Image
           style={styles.logo}
@@ -17,22 +44,18 @@ const LoginModal = () => {
           onChangeText={(mail) => setEmail(mail)}
           placeholder="Email"
           keyboardType="email-address"
+          onFocus={focusEmail}
         />
         <TextInput
           style={styles.password}
           onChangeText={(password) => setPassword(password)}
           placeholder="Password"
           secureTextEntry={true}
+          onFocus={focusPassword}
         />
-        <Image
-          style={styles.iconEmail}
-          source={require('../../assets/icon-email.png')}
-        />
-        <Image
-          style={styles.iconPass}
-          source={require('../../assets/icon-password.png')}
-        />
-        <TouchableOpacity>
+        <Image style={styles.iconEmail} source={iconEmail} />
+        <Image style={styles.iconPass} source={iconPassword} />
+        <TouchableOpacity onPress={handleLogin}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Log In</Text>
           </View>
@@ -133,6 +156,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 170,
     left: 23,
+  },
+  blur: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    top: 0,
+    left: 0,
   },
 });
 
