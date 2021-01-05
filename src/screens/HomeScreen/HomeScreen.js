@@ -43,6 +43,7 @@ IconF.loadFont();
 
 const HomeScreen = (props) => {
   const dispatch = useDispatch();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const action = useSelector((state) => state.modal.action);
   const currUser = useSelector((state) => state.modal.user);
   const {loading, error, data} = useQuery(CardsQuery);
@@ -147,7 +148,7 @@ const HomeScreen = (props) => {
         </SafeAreaView>
       </Animated.View>
       <MenuModal />
-      <LoginModal />
+      <LoginModal isAuthenticated={isAuthenticated} />
     </View>
   );
 };

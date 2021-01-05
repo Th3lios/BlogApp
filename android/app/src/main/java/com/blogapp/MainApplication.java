@@ -16,6 +16,7 @@ import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.bridge.JSIModulePackage; // <- add
 import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
 import com.cmcewen.blurview.BlurViewPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 

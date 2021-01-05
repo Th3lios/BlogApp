@@ -4,15 +4,20 @@ import {
   Text,
   Image,
   TextInput,
-  Button,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import {BlurView} from '@react-native-community/blur';
+import Loading from '../Feedback/Loading';
+import Success from '../Feedback/Success';
 
 const LoginModal = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSuccessful, setIsSuccessful] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [iconEmail, setIconEmail] = useState(
     require('../../assets/icon-email.png'),
   );
@@ -20,7 +25,15 @@ const LoginModal = () => {
     require('../../assets/icon-password.png'),
   );
   const handleLogin = () => {
-    return console.log(email, password);
+    Keyboard.dismiss();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setIsSuccessful(true);
+      setTimeout(() => {
+        setIsSuccessful(false);
+      }, 1000);
+    }, 2000);
   };
   const focusEmail = () => {
     setIconEmail(require('../../assets/icon-email-animated.gif'));
@@ -30,38 +43,46 @@ const LoginModal = () => {
     setIconEmail(require('../../assets/icon-email.png'));
     setIconPassword(require('../../assets/icon-password-animated.gif'));
   };
+  const tapBackground = () => {
+    console.log('test');
+    Keyboard.dismiss();
+  };
   return (
-    <View style={styles.container}>
-      <BlurView style={styles.blur} blurType="light" blurAmount={100} />
-      <View style={styles.modal}>
-        <Image
-          style={styles.logo}
-          source={require('../../assets/logo-dc.png')}
-        />
-        <Text style={styles.text}>Start learning access pro content</Text>
-        <TextInput
-          style={styles.username}
-          onChangeText={(mail) => setEmail(mail)}
-          placeholder="Email"
-          keyboardType="email-address"
-          onFocus={focusEmail}
-        />
-        <TextInput
-          style={styles.password}
-          onChangeText={(password) => setPassword(password)}
-          placeholder="Password"
-          secureTextEntry={true}
-          onFocus={focusPassword}
-        />
-        <Image style={styles.iconEmail} source={iconEmail} />
-        <Image style={styles.iconPass} source={iconPassword} />
-        <TouchableOpacity onPress={handleLogin}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Log In</Text>
-          </View>
-        </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={tapBackground}>
+      <View style={styles.container}>
+        <BlurView style={styles.blur} blurType="light" blurAmount={100} />
+        <View style={styles.modal}>
+          <Image
+            style={styles.logo}
+            source={require('../../assets/logo-dc.png')}
+          />
+          <Text style={styles.text}>Start learning access pro content</Text>
+          <TextInput
+            style={styles.username}
+            onChangeText={(mail) => setEmail(mail)}
+            placeholder="Email"
+            keyboardType="email-address"
+            onFocus={focusEmail}
+          />
+          <TextInput
+            style={styles.password}
+            onChangeText={(password) => setPassword(password)}
+            placeholder="Password"
+            secureTextEntry={true}
+            onFocus={focusPassword}
+          />
+          <Image style={styles.iconEmail} source={iconEmail} />
+          <Image style={styles.iconPass} source={iconPassword} />
+          <TouchableOpacity onPress={handleLogin}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Log In</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Success isActive={isSuccessful} />
+        <Loading isActive={isLoading} />
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
