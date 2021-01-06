@@ -43,9 +43,10 @@ IconF.loadFont();
 
 const HomeScreen = (props) => {
   const dispatch = useDispatch();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const action = useSelector((state) => state.modal.action);
   const currUser = useSelector((state) => state.modal.user);
+  const isAuthenticated = useSelector((state) => state.modal.success);
   const {loading, error, data} = useQuery(CardsQuery);
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
@@ -114,7 +115,9 @@ const HomeScreen = (props) => {
                 />
                 <View style={styles.avatarBorders} />
               </TouchableOpacity>
-              <Text style={styles.title}>Welcome back</Text>
+              <Text style={styles.title}>
+                Welcome back {isAuthenticated ? 'true' : 'false'}
+              </Text>
               <Text style={styles.name}>{currUser?.name.first}</Text>
             </View>
             <ScrollView

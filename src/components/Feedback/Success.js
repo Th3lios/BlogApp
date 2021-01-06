@@ -1,10 +1,9 @@
 import React, {useRef, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import LottieView from 'lottie-react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 const {width, height} = Dimensions.get('window');
@@ -14,11 +13,11 @@ const Success = ({isActive}) => {
   const opacity = useSharedValue(0);
 
   useEffect(() => {
-    if (isActive) {
+    if (isActive === true) {
       top.value = withTiming(0, {duration: 0});
       opacity.value = withTiming(1);
       refSuccess.current.play();
-    } else {
+    } else if (isActive === false) {
       opacity.value = withTiming(0, {duration: 500}, (isFinished) => {
         if (isFinished) {
           top.value = withTiming(height);

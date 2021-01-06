@@ -1,4 +1,3 @@
-import {valueOf} from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedViewPropTypes';
 import {put, call, takeLatest} from 'redux-saga/effects';
 
 // actions
@@ -9,7 +8,10 @@ import {apiCall} from '../../api/api';
 
 function* setMenuModal(action) {
   try {
-    yield put({type: actionTypes.SET_MENU_MODAL_STATE, data: action.data});
+    yield put({
+      type: actionTypes.SET_MENU_MODAL_STATE_REDUCER,
+      data: action.data,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -33,9 +35,20 @@ function* getUsers(action) {
   }
 }
 
+function* setSuccess(action) {
+  try {
+    console.log("Holaa");
+    console.log(action.data);
+    yield put({type: actionTypes.SET_SUCCESS_REDUCER, data: action.data});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // watcher
 export default function* modal() {
-  yield takeLatest(actionTypes.SET_MENU_MODAL, setMenuModal);
+  yield takeLatest(actionTypes.SET_MENU_MODAL_SAGA, setMenuModal);
   yield takeLatest(actionTypes.GET_USERS_SAGA, getUsers);
   yield takeLatest(actionTypes.SET_PAN_STATUS_SAGA, setPanStatus);
+  yield takeLatest(actionTypes.SET_SUCCESS_SAGA, setSuccess);
 }

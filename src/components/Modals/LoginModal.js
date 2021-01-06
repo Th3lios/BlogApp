@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,24 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Dimensions,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
+import {useDispatch, useSelector} from 'react-redux';
 import {BlurView} from '@react-native-community/blur';
 import Loading from '../Feedback/Loading';
 import Success from '../Feedback/Success';
-
+import {setSuccessSaga} from '../../redux/actions/modalAction/modalAction';
+const {width, height} = Dimensions.get('window');
 const LoginModal = () => {
+  const dispatch = useDispatch();
+  const success = useSelector((state) => state.modal.success);
+  const opacity = useSharedValue(1);
+  const top = useSharedValue(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
@@ -24,6 +36,19 @@ const LoginModal = () => {
   const [iconPassword, setIconPassword] = useState(
     require('../../assets/icon-password.png'),
   );
+
+  useEffect(() => {
+    if (success) {
+      opacity.value = withTiming(0, {duration: 500});
+      top.value = withTiming(height, {duration: 0});
+    } else {
+      opacity.value = withTiming(1, {duration: 500});
+      top.value = withTiming(0, {duration: 0});
+      setIsLoading(false);
+      setIsSuccessful(false);
+    }
+  }, [setIsLoading, setIsSuccessful, success, opacity, top]);
+
   const handleLogin = () => {
     Keyboard.dismiss();
     setIsLoading(true);
@@ -32,6 +57,14 @@ const LoginModal = () => {
       setIsSuccessful(true);
       setTimeout(() => {
         setIsSuccessful(false);
+        opacity.value = withTiming(0, {duration: 500}, (isFinished) => {
+          if (isFinished) {
+            top.value = withTiming(height, {duration: 0});
+          }
+        });
+        setTimeout(() => {
+          dispatch(setSuccessSaga(true));
+        }, 600);
       }, 1000);
     }, 2000);
   };
@@ -47,16 +80,22 @@ const LoginModal = () => {
     console.log('test');
     Keyboard.dismiss();
   };
+  const containerAnimStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    top: top.value,
+  }));
   return (
     <TouchableWithoutFeedback onPress={tapBackground}>
-      <View style={styles.container}>
-        <BlurView style={styles.blur} blurType="light" blurAmount={100} />
+      <Animated.View style={[styles.container, containerAnimStyle]}>
+        <BlurView style={styles.blur} blurType="light" blurAmount={3} />
         <View style={styles.modal}>
           <Image
             style={styles.logo}
             source={require('../../assets/logo-dc.png')}
           />
-          <Text style={styles.text}>Start learning access pro content</Text>
+          <Text style={styles.text}>
+            Start learning access pro content {success ? 'true' : 'false'}
+          </Text>
           <TextInput
             style={styles.username}
             onChangeText={(mail) => setEmail(mail)}
@@ -81,7 +120,7 @@ const LoginModal = () => {
         </View>
         <Success isActive={isSuccessful} />
         <Loading isActive={isLoading} />
-      </View>
+      </Animated.View>
     </TouchableWithoutFeedback>
   );
 };
@@ -89,7 +128,6 @@ const LoginModal = () => {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 0,
     left: 0,
     height: '100%',
     width: '100%',
@@ -115,7 +153,7 @@ const styles = StyleSheet.create({
     color: '#b8bece',
     fontWeight: '700',
     fontSize: 13,
-    width: 150,
+    width: 170,
     alignSelf: 'center',
     textAlign: 'center',
     marginBottom: 5,

@@ -13,11 +13,11 @@ const Loading = ({isActive}) => {
   const top = useSharedValue(0);
   const opacity = useSharedValue(0);
   useEffect(() => {
-    if (isActive) {
+    if (isActive === true) {
       top.value = withTiming(0, {duration: 0});
       opacity.value = withTiming(1);
       refSuccess.current.play();
-    } else {
+    } else if (isActive === false) {
       opacity.value = withTiming(0, {duration: 400}, (isFinished) => {
         if (isFinished) {
           top.value = withTiming(height);

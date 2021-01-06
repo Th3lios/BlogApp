@@ -4,11 +4,12 @@ const initialState = {
   action: false,
   user: undefined,
   panStatus: true,
+  success: false,
 };
 
 export const menuReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_MENU_MODAL_STATE:
+    case actionTypes.SET_MENU_MODAL_STATE_REDUCER:
       return {
         ...state,
         action: action.data,
@@ -22,6 +23,11 @@ export const menuReducer = (state = initialState, action) => {
       return {
         ...state,
         panStatus: action.data,
+      };
+    case actionTypes.SET_SUCCESS_REDUCER:
+      return {
+        ...state,
+        success: action.data,
       };
     default:
       return state;
